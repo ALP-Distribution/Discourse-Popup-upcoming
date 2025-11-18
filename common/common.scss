@@ -3,6 +3,9 @@
 // ---------------------------------------------------------------------------
 // Icarsoft pre-launch popup + sticky banner
 // ---------------------------------------------------------------------------
+body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
+  margin-block-start: 3rem;
+}
 
 .icarsoft-prelaunch-overlay {
   position: fixed;
@@ -164,6 +167,9 @@
   letter-spacing: 0.08em;
   color: #e7ebf9;
 }
+.icarsoft-prelaunch-banner .icarsoft-prelaunch-countdown-unit {
+  flex-direction: row;
+}
 
 .icarsoft-prelaunch-footer {
   display: flex;
@@ -283,6 +289,11 @@
 .icarsoft-prelaunch-countdown--compact .label {
   font-size: 0.7rem;
   color: #e7ebf9;
+}
+@media (max-width: 900px) {
+  .icarsoft-prelaunch-countdown {
+    display: none;
+  }
 }
 
 @media (max-width: 600px) {
