@@ -30,13 +30,13 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
 }
 
 .icarsoft-prelaunch-card {
-  background: linear-gradient(135deg, #ffffff, #ecefff);
+  background: linear-gradient(135deg, #0f172a, #020617);
   border-radius: 1.5rem;
   padding: 1.75rem 1.75rem 1.5rem;
   box-shadow:
     0 24px 60px rgba(15, 23, 42, 0.8),
     0 0 0 1px rgba(148, 163, 184, 0.25);
-  color: #221f20;
+  color: #e5e7eb;
   position: relative;
   overflow: hidden;
 }
@@ -89,7 +89,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: white;
+  color: #e5e7eb;
   background: rgba(15, 23, 42, 0.85);
 }
 
@@ -97,13 +97,13 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   font-size: 1.45rem;
   line-height: 1.3;
   margin: 0;
-  color: #221f20;
+  color: #f9fafb;
 }
 
 .icarsoft-prelaunch-subtitle {
   margin: 0;
   font-size: 0.96rem;
-  color: #221f20;
+  color: #e5e7eb;
 }
 
 .icarsoft-prelaunch-subtitle strong {
@@ -120,7 +120,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #221f20;
+  color: #9ca3af;
 }
 
 .icarsoft-prelaunch-countdown {
@@ -156,7 +156,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   font-size: 1.5rem;
   line-height: 1.1;
   font-weight: 600;
-  color: #e7ebf9;
+  color: #f9fafb;
 }
 
 .icarsoft-prelaunch-countdown-unit .label {
@@ -165,7 +165,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #e7ebf9;
+  color: #cbd5f5;
 }
 .icarsoft-prelaunch-banner .icarsoft-prelaunch-countdown-unit {
   flex-direction: row;
@@ -180,7 +180,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
 .icarsoft-prelaunch-note {
   margin: 0;
   font-size: 0.86rem;
-  color: #221f20;
+  color: #cbd5f5;
 }
 
 .icarsoft-prelaunch-close {
@@ -226,11 +226,11 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   right: 0;
   z-index: 1500;
   display: none;
-  background: linear-gradient(135deg, #ffffff, #ecefff);
-  color: #221f20;
+  background: linear-gradient(90deg, #0f172a, #020617);
+  color: #e5e7eb;
   box-shadow:
-    0 16px 45px rgba(15, 23, 42, 0.3),
-    0 0 0 1px rgba(148, 163, 184, 0.25);
+    0 16px 45px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
 }
 
 .icarsoft-prelaunch-banner-inner {
