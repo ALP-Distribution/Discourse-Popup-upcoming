@@ -1,0 +1,290 @@
+// Theme's SCSS
+
+// ---------------------------------------------------------------------------
+// Icarsoft pre-launch popup + sticky banner
+// ---------------------------------------------------------------------------
+
+.icarsoft-prelaunch-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 2000;
+}
+
+.icarsoft-prelaunch-popup {
+  width: 100%;
+  max-width: 560px;
+}
+
+.icarsoft-prelaunch-card {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  border-radius: 1.5rem;
+  padding: 1.75rem 1.75rem 1.5rem;
+  box-shadow:
+    0 24px 60px rgba(15, 23, 42, 0.8),
+    0 0 0 1px rgba(148, 163, 184, 0.25);
+  color: #e5e7eb;
+  position: relative;
+  overflow: hidden;
+}
+
+.icarsoft-prelaunch-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.18), transparent 55%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.icarsoft-prelaunch-card::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at bottom left, rgba(239, 68, 68, 0.14), transparent 55%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.icarsoft-prelaunch-header,
+.icarsoft-prelaunch-footer,
+.icarsoft-prelaunch-countdown-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.icarsoft-prelaunch-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.icarsoft-prelaunch-pill {
+  align-self: flex-start;
+  padding: 0.125rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.icarsoft-prelaunch-title {
+  font-size: 1.45rem;
+  line-height: 1.3;
+  margin: 0;
+  color: #f9fafb;
+}
+
+.icarsoft-prelaunch-subtitle {
+  margin: 0;
+  font-size: 0.96rem;
+  color: #e5e7eb;
+}
+
+.icarsoft-prelaunch-subtitle strong {
+  color: #f97316;
+  font-weight: 600;
+}
+
+.icarsoft-prelaunch-countdown-wrapper {
+  margin: 0.75rem 0 1.5rem;
+}
+
+.icarsoft-prelaunch-countdown-label {
+  margin: 0 0 0.5rem;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #9ca3af;
+}
+
+.icarsoft-prelaunch-countdown {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.icarsoft-prelaunch-countdown-unit {
+  min-width: 64px;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.9rem;
+  background: radial-gradient(circle at top left, rgba(15, 118, 110, 0.24), rgba(15, 23, 42, 0.9));
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.7),
+    0 0 0 1px rgba(15, 23, 42, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.icarsoft-prelaunch-countdown-unit .value {
+  display: block;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.icarsoft-prelaunch-countdown-unit .label {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #cbd5f5;
+}
+
+.icarsoft-prelaunch-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.icarsoft-prelaunch-note {
+  margin: 0;
+  font-size: 0.86rem;
+  color: #cbd5f5;
+}
+
+.icarsoft-prelaunch-close {
+  align-self: flex-start;
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-image: linear-gradient(135deg, #10b981, #22c55e);
+  color: #022c22;
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition:
+    transform 120ms ease-out,
+    box-shadow 120ms ease-out,
+    background-image 160ms ease-out;
+}
+
+.icarsoft-prelaunch-close:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.55);
+  background-image: linear-gradient(135deg, #22c55e, #4ade80);
+}
+
+.icarsoft-prelaunch-close:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.55);
+}
+
+.icarsoft-prelaunch-close:focus-visible {
+  outline: 2px solid #a7f3d0;
+  outline-offset: 2px;
+}
+
+// Sticky banner
+
+.icarsoft-prelaunch-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1500;
+  display: none;
+  background: linear-gradient(90deg, #0f172a, #020617);
+  color: #e5e7eb;
+  box-shadow:
+    0 16px 45px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+.icarsoft-prelaunch-banner-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.55rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.icarsoft-prelaunch-banner-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.icarsoft-prelaunch-banner-text strong {
+  color: #f97316;
+  font-weight: 600;
+}
+
+.icarsoft-prelaunch-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, #22c55e 20%, #16a34a 70%, #0f172a 100%);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.35);
+}
+
+.icarsoft-prelaunch-countdown--compact {
+  gap: 0.35rem;
+}
+
+.icarsoft-prelaunch-countdown--compact .icarsoft-prelaunch-countdown-unit {
+  min-width: auto;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  box-shadow: none;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+.icarsoft-prelaunch-countdown--compact .value {
+  font-size: 0.9rem;
+}
+
+.icarsoft-prelaunch-countdown--compact .label {
+  font-size: 0.7rem;
+}
+
+@media (max-width: 600px) {
+  .icarsoft-prelaunch-card {
+    padding: 1.25rem 1.2rem 1.1rem;
+    border-radius: 1.15rem;
+  }
+
+  .icarsoft-prelaunch-title {
+    font-size: 1.25rem;
+  }
+
+  .icarsoft-prelaunch-countdown-unit {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+
+  .icarsoft-prelaunch-banner-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-block: 0.6rem;
+  }
+
+  .icarsoft-prelaunch-banner-text {
+    font-size: 0.86rem;
+  }
+}
