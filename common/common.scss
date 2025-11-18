@@ -134,7 +134,7 @@
   border-radius: 0.9rem;
   background: radial-gradient(
     circle at top left,
-    rgba(222, 26, 0, 0.24),
+    rgba(15, 118, 110, 0.24),
     rgba(15, 23, 42, 0.9)
   );
   border: 1px solid rgba(148, 163, 184, 0.55);
@@ -187,7 +187,6 @@
   cursor: pointer;
   background-image: linear-gradient(135deg, #de1a00, #ff2e14);
   color: #ffffff;
-  box-shadow: 0 12px 30px rgba(222, 26, 0, 0.5);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -206,7 +205,6 @@
 
 .icarsoft-prelaunch-close:active {
   transform: translateY(0);
-  box-shadow: 0 8px 20px rgba(222, 26, 0, 0.55);
 }
 
 .icarsoft-prelaunch-close:focus-visible {
@@ -256,7 +254,6 @@
   height: 0.55rem;
   border-radius: 999px;
   background: radial-gradient(circle, #ff2e14 20%, #de1a00 70%, #0f172a 100%);
-  box-shadow: 0 0 0 4px rgba(222, 26, 0, 0.35);
 }
 
 .icarsoft-prelaunch-countdown--compact {
@@ -269,7 +266,7 @@
   border-radius: 999px;
   background: radial-gradient(
     circle at top left,
-    rgba(222, 26, 0, 0.24),
+    rgba(15, 118, 110, 0.24),
     rgba(15, 23, 42, 0.9)
   );
   border: 1px solid rgba(148, 163, 184, 0.55);
