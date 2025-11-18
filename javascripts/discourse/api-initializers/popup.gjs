@@ -138,19 +138,23 @@ function ensureBanner() {
         </div>
       </div>
     `;
+    // Default insertion; we may reposition relative to the header below
+    document.body.appendChild(banner);
+  }
 
-    const header = document.querySelector(".d-header");
-    if (header && header.parentNode) {
-      header.parentNode.insertBefore(banner, header.nextSibling);
-    } else {
-      document.body.appendChild(banner);
-    }
+  // Keep the banner visually attached to the Discourse header when possible
+  const header = document.querySelector(".d-header");
 
-    const effectiveHeader = document.querySelector(".d-header");
-    if (effectiveHeader) {
-      const headerHeight = effectiveHeader.offsetHeight || 60;
-      banner.style.top = `${headerHeight}px`;
-    }
+  if (header && header.parentNode && banner.parentNode !== header.parentNode) {
+    header.parentNode.insertBefore(banner, header.nextSibling);
+  }
+
+  if (header) {
+    const headerHeight = header.offsetHeight || 60;
+    banner.style.top = `${headerHeight}px`;
+  } else if (!banner.style.top) {
+    // Fallback so the banner stays visible even if the header structure differs
+    banner.style.top = "0";
   }
 
   return banner;
@@ -183,28 +187,26 @@ function updateCountdown() {
 
   const containers = document.querySelectorAll(".icarsoft-prelaunch-countdown");
   containers.forEach((container) => {
-    container
-      .querySelectorAll("[data-unit]")
-      .forEach((element) => {
-        const unit = element.getAttribute("data-unit");
+    container.querySelectorAll("[data-unit]").forEach((element) => {
+      const unit = element.getAttribute("data-unit");
 
-        switch (unit) {
-          case "days":
-            element.textContent = pad(days);
-            break;
-          case "hours":
-            element.textContent = pad(hours);
-            break;
-          case "minutes":
-            element.textContent = pad(minutes);
-            break;
-          case "seconds":
-            element.textContent = pad(seconds);
-            break;
-          default:
-            break;
-        }
-      });
+      switch (unit) {
+        case "days":
+          element.textContent = pad(days);
+          break;
+        case "hours":
+          element.textContent = pad(hours);
+          break;
+        case "minutes":
+          element.textContent = pad(minutes);
+          break;
+        case "seconds":
+          element.textContent = pad(seconds);
+          break;
+        default:
+          break;
+      }
+    });
   });
 
   if (total <= 0 && countdownInterval) {

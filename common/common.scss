@@ -134,7 +134,7 @@
   border-radius: 0.9rem;
   background: radial-gradient(
     circle at top left,
-    rgba(15, 118, 110, 0.24),
+    rgba(222, 26, 0, 0.24),
     rgba(15, 23, 42, 0.9)
   );
   border: 1px solid rgba(148, 163, 184, 0.55);
@@ -153,7 +153,7 @@
   font-size: 1.5rem;
   line-height: 1.1;
   font-weight: 600;
-  color: #d2d9f1;
+  color: #e7ebf9;
 }
 
 .icarsoft-prelaunch-countdown-unit .label {
@@ -162,7 +162,7 @@
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #d2d9f1;
+  color: #e7ebf9;
 }
 
 .icarsoft-prelaunch-footer {
@@ -185,9 +185,9 @@
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  background-image: linear-gradient(135deg, #10b981, #22c55e);
-  color: #022c22;
-  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.5);
+  background-image: linear-gradient(135deg, #de1a00, #ff2e14);
+  color: #ffffff;
+  box-shadow: 0 12px 30px rgba(222, 26, 0, 0.5);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -200,17 +200,17 @@
 
 .icarsoft-prelaunch-close:hover {
   transform: translateY(-1px);
-  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.55);
-  background-image: linear-gradient(135deg, #22c55e, #4ade80);
+  box-shadow: 0 16px 40px rgba(222, 26, 0, 0.55);
+  background-image: linear-gradient(135deg, #ff2e14, #ff5a47);
 }
 
 .icarsoft-prelaunch-close:active {
   transform: translateY(0);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.55);
+  box-shadow: 0 8px 20px rgba(222, 26, 0, 0.55);
 }
 
 .icarsoft-prelaunch-close:focus-visible {
-  outline: 2px solid #a7f3d0;
+  outline: 2px solid rgba(222, 26, 0, 0.5);
   outline-offset: 2px;
 }
 
@@ -255,8 +255,8 @@
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 999px;
-  background: radial-gradient(circle, #22c55e 20%, #16a34a 70%, #0f172a 100%);
-  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.35);
+  background: radial-gradient(circle, #ff2e14 20%, #de1a00 70%, #0f172a 100%);
+  box-shadow: 0 0 0 4px rgba(222, 26, 0, 0.35);
 }
 
 .icarsoft-prelaunch-countdown--compact {
@@ -269,7 +269,7 @@
   border-radius: 999px;
   background: radial-gradient(
     circle at top left,
-    rgba(15, 118, 110, 0.24),
+    rgba(222, 26, 0, 0.24),
     rgba(15, 23, 42, 0.9)
   );
   border: 1px solid rgba(148, 163, 184, 0.55);
@@ -280,12 +280,12 @@
 
 .icarsoft-prelaunch-countdown--compact .value {
   font-size: 0.9rem;
-  color: #d2d9f1;
+  color: #e7ebf9;
 }
 
 .icarsoft-prelaunch-countdown--compact .label {
   font-size: 0.7rem;
-  color: #d2d9f1;
+  color: #e7ebf9;
 }
 
 @media (max-width: 600px) {
