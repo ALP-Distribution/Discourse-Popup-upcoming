@@ -291,7 +291,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   color: #e7ebf9;
 }
 @media (max-width: 900px) {
-  .icarsoft-prelaunch-countdown {
+  .icarsoft-prelaunch-banner .icarsoft-prelaunch-countdown {
     display: none;
   }
 }
