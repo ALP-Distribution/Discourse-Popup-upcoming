@@ -3,11 +3,11 @@ import { apiInitializer } from "discourse/lib/api";
 const CLOSED_FLAG_KEY = "icarsoft_prelaunch_popup_closed";
 const LAUNCH_DATE_ISO = "2025-12-15T00:00:00+01:00";
 
-function hasWindow() {
+export function hasWindow() {
   return typeof window !== "undefined" && typeof document !== "undefined";
 }
 
-function getSessionFlag() {
+export function getSessionFlag() {
   if (!hasWindow()) {
     return false;
   }
