@@ -161,6 +161,13 @@ function ensureBanner() {
 }
 
 let countdownInterval = null;
+let cachedUnits = null;
+
+const pad = (value) => String(value).padStart(2, "0");
+
+function clearCache() {
+  cachedUnits = null;
+}
 
 function updateCountdown() {
   if (!hasWindow()) {
@@ -168,8 +175,8 @@ function updateCountdown() {
   }
 
   const now = new Date();
-  const target = new Date(LAUNCH_DATE_ISO);
-  const total = target.getTime() - now.getTime();
+  const targetDate = new Date(LAUNCH_DATE_ISO);
+  const total = targetDate.getTime() - now.getTime();
 
   let days = 0;
   let hours = 0;
@@ -183,31 +190,46 @@ function updateCountdown() {
     days = Math.floor(total / (1000 * 60 * 60 * 24));
   }
 
-  const pad = (value) => String(value).padStart(2, "0");
+  if (!cachedUnits || cachedUnits.length === 0) {
+    const containers = document.querySelectorAll(".icarsoft-prelaunch-countdown");
+    if (containers.length > 0) {
+      cachedUnits = [];
+      containers.forEach((container) => {
+        container.querySelectorAll("[data-unit]").forEach((element) => {
+          cachedUnits.push({
+            element,
+            unit: element.getAttribute("data-unit"),
+          });
+        });
+      });
+    }
+  }
 
-  const containers = document.querySelectorAll(".icarsoft-prelaunch-countdown");
-  containers.forEach((container) => {
-    container.querySelectorAll("[data-unit]").forEach((element) => {
-      const unit = element.getAttribute("data-unit");
+  if (cachedUnits) {
+    const daysStr = pad(days);
+    const hoursStr = pad(hours);
+    const minutesStr = pad(minutes);
+    const secondsStr = pad(seconds);
 
-      switch (unit) {
+    cachedUnits.forEach((item) => {
+      switch (item.unit) {
         case "days":
-          element.textContent = pad(days);
+          item.element.textContent = daysStr;
           break;
         case "hours":
-          element.textContent = pad(hours);
+          item.element.textContent = hoursStr;
           break;
         case "minutes":
-          element.textContent = pad(minutes);
+          item.element.textContent = minutesStr;
           break;
         case "seconds":
-          element.textContent = pad(seconds);
+          item.element.textContent = secondsStr;
           break;
         default:
           break;
       }
     });
-  });
+  }
 
   if (total <= 0 && countdownInterval) {
     window.clearInterval(countdownInterval);
@@ -270,6 +292,7 @@ export default apiInitializer("0.11.1", (api) => {
   updateVisibility();
 
   api.onPageChange(() => {
+    clearCache();
     startCountdown();
     updateVisibility();
   });
