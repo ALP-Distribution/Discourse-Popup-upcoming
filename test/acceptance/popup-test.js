@@ -1,34 +1,32 @@
 import { module, test } from "qunit";
-import { getSessionFlag } from "../../javascripts/discourse/api-initializers/popup";
+import {
+  getSessionFlag,
+  isAfterLaunchDate,
+} from "../../javascripts/discourse/api-initializers/popup.gjs";
 
-module("Unit | getSessionFlag", function () {
-  test("it returns false when sessionStorage.getItem throws an error", function (assert) {
+module("Unit | popup helpers", function () {
+  test("getSessionFlag returns false when sessionStorage.getItem throws an error", function (assert) {
     const originalGetItem = window.sessionStorage.getItem;
-    window.sessionStorage.getItem = function() {
+    window.sessionStorage.getItem = function () {
       throw new Error("sessionStorage error");
     };
 
     try {
-      assert.strictEqual(
-        getSessionFlag(),
-        false,
-        "returns false when an error is thrown"
-      );
+      assert.false(getSessionFlag(), "returns false when an error is thrown");
     } finally {
       window.sessionStorage.getItem = originalGetItem;
     }
   });
 
-  test("it returns true when sessionStorage item is 'true'", function (assert) {
+  test("getSessionFlag returns true when sessionStorage item is 'true'", function (assert) {
     const originalGetItem = window.sessionStorage.getItem;
-    window.sessionStorage.getItem = function() {
+    window.sessionStorage.getItem = function () {
       return "true";
     };
 
     try {
-      assert.strictEqual(
+      assert.true(
         getSessionFlag(),
-        true,
         "returns true when sessionStorage has 'true'"
       );
     } finally {
@@ -36,20 +34,31 @@ module("Unit | getSessionFlag", function () {
     }
   });
 
-  test("it returns false when sessionStorage item is not 'true'", function (assert) {
+  test("getSessionFlag returns false when sessionStorage item is not 'true'", function (assert) {
     const originalGetItem = window.sessionStorage.getItem;
-    window.sessionStorage.getItem = function() {
+    window.sessionStorage.getItem = function () {
       return "false";
     };
 
     try {
-      assert.strictEqual(
+      assert.false(
         getSessionFlag(),
-        false,
         "returns false when sessionStorage has 'false'"
       );
     } finally {
       window.sessionStorage.getItem = originalGetItem;
     }
+  });
+
+  test("isAfterLaunchDate compares timestamps against target ISO date", function (assert) {
+    const launchIso = "2025-12-15T00:00:00+01:00";
+    assert.false(
+      isAfterLaunchDate(new Date("2025-12-14T22:59:59Z"), launchIso),
+      "returns false before launch"
+    );
+    assert.true(
+      isAfterLaunchDate(new Date("2025-12-14T23:00:00Z"), launchIso),
+      "returns true at or after launch"
+    );
   });
 });

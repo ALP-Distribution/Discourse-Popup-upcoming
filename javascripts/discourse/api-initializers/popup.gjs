@@ -1,7 +1,7 @@
 import { apiInitializer } from "discourse/lib/api";
 
 const CLOSED_FLAG_KEY = "icarsoft_prelaunch_popup_closed";
-const LAUNCH_DATE_ISO = "2025-12-15T00:00:00+01:00";
+const DEFAULT_LAUNCH_DATE_ISO = "2025-12-15T00:00:00+01:00";
 
 export function hasWindow() {
   return typeof window !== "undefined" && typeof document !== "undefined";
@@ -19,7 +19,7 @@ export function getSessionFlag() {
   }
 }
 
-function setSessionFlag() {
+export function setSessionFlag() {
   if (!hasWindow()) {
     return;
   }
@@ -31,14 +31,56 @@ function setSessionFlag() {
   }
 }
 
+function getLaunchDateIso() {
+  if (typeof settings !== "undefined" && settings?.launch_date_iso) {
+    return String(settings.launch_date_iso).trim() || DEFAULT_LAUNCH_DATE_ISO;
+  }
+  return DEFAULT_LAUNCH_DATE_ISO;
+}
+
+function formatDisplayDate(isoString) {
+  const parsed = new Date(isoString);
+  if (Number.isNaN(parsed.getTime())) {
+    return "15/12/2025";
+  }
+  return new Intl.DateTimeFormat("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(parsed);
+}
+
+export function isAfterLaunchDate(now = new Date(), isoString) {
+  const target = new Date(isoString || getLaunchDateIso());
+  if (Number.isNaN(target.getTime())) {
+    return false;
+  }
+  return now.getTime() >= target.getTime();
+}
+
+function shouldHideForLaunchState() {
+  const enabled =
+    typeof settings === "undefined"
+      ? true
+      : settings?.enable_prelaunch_popup !== false;
+  if (!enabled) {
+    return true;
+  }
+  const hideAfter =
+    typeof settings === "undefined"
+      ? true
+      : settings?.hide_after_launch !== false;
+  return hideAfter && isAfterLaunchDate();
+}
+
 function ensureOverlay() {
-  let overlay = document.querySelector(".icarsoft-prelaunch-overlay");
+  let overlay = document.querySelector("dialog.icarsoft-prelaunch-overlay");
 
   if (!overlay) {
-    overlay = document.createElement("div");
+    const displayDate = formatDisplayDate(getLaunchDateIso());
+    overlay = document.createElement("dialog");
     overlay.className = "icarsoft-prelaunch-overlay";
-    overlay.setAttribute("role", "dialog");
-    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("closedby", "any");
     overlay.setAttribute("aria-labelledby", "icarsoft-prelaunch-title");
 
     overlay.innerHTML = `
@@ -50,7 +92,7 @@ function ensureOverlay() {
               Forum en préparation
             </h2>
             <p class="icarsoft-prelaunch-subtitle">
-              Notre forum est actuellement fermé. Le lancement est prévu pour le <strong>15/12/2025</strong>.
+              Notre forum est actuellement fermé. Le lancement est prévu pour le <strong data-launch-date></strong>.
             </p>
           </header>
 
@@ -82,21 +124,47 @@ function ensureOverlay() {
             <p class="icarsoft-prelaunch-note">
               Vous pouvez déjà parcourir le contenu en lecture seule. Les inscriptions et les réponses seront ouvertes à partir du lancement.
             </p>
-            <button type="button" class="icarsoft-prelaunch-close">
-              J&apos;ai compris
-            </button>
+            <form method="dialog" class="icarsoft-prelaunch-form">
+              <button type="submit" value="ack" autofocus class="icarsoft-prelaunch-close">
+                J&apos;ai compris
+              </button>
+            </form>
           </footer>
         </div>
       </div>
     `;
 
+    const dateEl = overlay.querySelector("[data-launch-date]");
+    if (dateEl) {
+      dateEl.textContent = displayDate;
+    }
+
     document.body.appendChild(overlay);
 
-    const closeBtn = overlay.querySelector(".icarsoft-prelaunch-close");
-    if (closeBtn) {
-      closeBtn.addEventListener("click", () => {
-        setSessionFlag();
-        updateVisibility();
+    overlay.addEventListener("close", () => {
+      overlay.returnValue = "";
+      setSessionFlag();
+      updateVisibility();
+    });
+
+    if (
+      typeof HTMLDialogElement !== "undefined" &&
+      !("closedBy" in HTMLDialogElement.prototype)
+    ) {
+      overlay.addEventListener("click", (event) => {
+        if (event.target !== overlay) {
+          return;
+        }
+        const rect = overlay.getBoundingClientRect();
+        const isDialogContent =
+          rect.top <= event.clientY &&
+          event.clientY <= rect.top + rect.height &&
+          rect.left <= event.clientX &&
+          event.clientX <= rect.left + rect.width;
+        if (isDialogContent) {
+          return;
+        }
+        overlay.close();
       });
     }
   }
@@ -108,14 +176,16 @@ function ensureBanner() {
   let banner = document.querySelector(".icarsoft-prelaunch-banner");
 
   if (!banner) {
+    const displayDate = formatDisplayDate(getLaunchDateIso());
     banner = document.createElement("div");
     banner.className = "icarsoft-prelaunch-banner";
+    banner.hidden = true;
     banner.innerHTML = `
       <div class="icarsoft-prelaunch-banner-inner">
         <div class="icarsoft-prelaunch-banner-text">
           <span class="icarsoft-prelaunch-dot"></span>
-          <span>
-            Notre forum est actuellement fermé. Le lancement est prévu pour le <strong>15/12/2025</strong>.
+          <span class="icarsoft-prelaunch-subtitle">
+            Notre forum est actuellement fermé. Le lancement est prévu pour le <strong data-launch-date></strong>.
           </span>
         </div>
         <div class="icarsoft-prelaunch-countdown icarsoft-prelaunch-countdown--compact" data-context="banner">
@@ -138,11 +208,13 @@ function ensureBanner() {
         </div>
       </div>
     `;
-    // Default insertion; we may reposition relative to the header below
+    const dateEl = banner.querySelector("[data-launch-date]");
+    if (dateEl) {
+      dateEl.textContent = displayDate;
+    }
     document.body.appendChild(banner);
   }
 
-  // Keep the banner visually attached to the Discourse header when possible
   const header = document.querySelector(".d-header");
 
   if (header && header.parentNode && banner.parentNode !== header.parentNode) {
@@ -153,7 +225,6 @@ function ensureBanner() {
     const headerHeight = header.offsetHeight || 60;
     banner.style.top = `${headerHeight}px`;
   } else if (!banner.style.top) {
-    // Fallback so the banner stays visible even if the header structure differs
     banner.style.top = "0";
   }
 
@@ -169,13 +240,39 @@ function clearCache() {
   cachedUnits = null;
 }
 
+function teardownPrelaunchUi() {
+  if (countdownInterval) {
+    window.clearInterval(countdownInterval);
+    countdownInterval = null;
+  }
+  const existingOverlay = document.querySelector(
+    "dialog.icarsoft-prelaunch-overlay"
+  );
+  if (existingOverlay) {
+    if (existingOverlay.open) {
+      existingOverlay.close();
+    }
+    existingOverlay.remove();
+  }
+  const existingBanner = document.querySelector(".icarsoft-prelaunch-banner");
+  if (existingBanner) {
+    existingBanner.remove();
+  }
+  clearCache();
+}
+
 function updateCountdown() {
   if (!hasWindow()) {
     return;
   }
 
+  if (shouldHideForLaunchState()) {
+    teardownPrelaunchUi();
+    return;
+  }
+
   const now = new Date();
-  const targetDate = new Date(LAUNCH_DATE_ISO);
+  const targetDate = new Date(getLaunchDateIso());
   const total = targetDate.getTime() - now.getTime();
 
   let days = 0;
@@ -191,7 +288,9 @@ function updateCountdown() {
   }
 
   if (!cachedUnits || cachedUnits.length === 0) {
-    const containers = document.querySelectorAll(".icarsoft-prelaunch-countdown");
+    const containers = document.querySelectorAll(
+      ".icarsoft-prelaunch-countdown"
+    );
     if (containers.length > 0) {
       cachedUnits = [];
       containers.forEach((container) => {
@@ -243,7 +342,7 @@ function updateCountdown() {
 }
 
 function startCountdown() {
-  if (!hasWindow()) {
+  if (!hasWindow() || shouldHideForLaunchState()) {
     return;
   }
 
@@ -259,20 +358,29 @@ function updateVisibility() {
     return;
   }
 
+  if (shouldHideForLaunchState()) {
+    teardownPrelaunchUi();
+    return;
+  }
+
   const overlay = ensureOverlay();
   const banner = ensureBanner();
   const closed = getSessionFlag();
 
   if (!closed) {
-    overlay.style.display = "flex";
-    banner.style.display = "none";
+    banner.hidden = true;
+    if (!overlay.open && typeof overlay.showModal === "function") {
+      overlay.showModal();
+    }
   } else {
-    overlay.style.display = "none";
-    banner.style.display = "block";
+    if (overlay.open && typeof overlay.close === "function") {
+      overlay.close();
+    }
+    banner.hidden = false;
   }
 }
 
-export default apiInitializer("0.11.1", (api) => {
+export default apiInitializer((api) => {
   if (!hasWindow()) {
     return;
   }
@@ -288,12 +396,12 @@ export default apiInitializer("0.11.1", (api) => {
 
   window.icarsoftPrelaunchInitialized = true;
 
-  startCountdown();
   updateVisibility();
+  startCountdown();
 
   api.onPageChange(() => {
     clearCache();
-    startCountdown();
     updateVisibility();
+    startCountdown();
   });
 });

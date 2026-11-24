@@ -3,25 +3,37 @@
 // ---------------------------------------------------------------------------
 // Icarsoft pre-launch popup + sticky banner
 // ---------------------------------------------------------------------------
-body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
+body:has(.icarsoft-prelaunch-banner:not([hidden])) #main-outlet-wrapper {
   margin-block-start: 3rem;
 }
 
-.icarsoft-prelaunch-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
+dialog.icarsoft-prelaunch-overlay {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  width: min(100% - 3rem, 560px);
+  max-width: 560px;
+  overflow: visible;
+}
+
+dialog.icarsoft-prelaunch-overlay[open] {
+  display: block;
+}
+
+dialog.icarsoft-prelaunch-overlay:modal {
+  overscroll-behavior: contain;
+}
+
+dialog.icarsoft-prelaunch-overlay::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
   background: radial-gradient(
     circle at top,
-    rgba(15, 23, 42, 0.85),
-    rgba(15, 23, 42, 0.95)
+    rgb(15 23 42 / 0.85),
+    rgb(15 23 42 / 0.95)
   );
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 2000;
 }
 
 .icarsoft-prelaunch-popup {
@@ -34,8 +46,8 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   border-radius: 1.5rem;
   padding: 1.75rem 1.75rem 1.5rem;
   box-shadow:
-    0 24px 60px rgba(15, 23, 42, 0.8),
-    0 0 0 1px rgba(148, 163, 184, 0.25);
+    0 24px 60px rgb(15 23 42 / 0.8),
+    0 0 0 1px rgb(148 163 184 / 0.25);
   color: #e5e7eb;
   position: relative;
   overflow: hidden;
@@ -47,7 +59,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   inset: -40%;
   background: radial-gradient(
     circle at top right,
-    rgba(56, 189, 248, 0.18),
+    rgb(56 189 248 / 0.18),
     transparent 55%
   );
   opacity: 0.9;
@@ -60,7 +72,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   inset: -40%;
   background: radial-gradient(
     circle at bottom left,
-    rgba(239, 68, 68, 0.14),
+    rgb(239 68 68 / 0.14),
     transparent 55%
   );
   opacity: 0.9;
@@ -85,12 +97,12 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   align-self: flex-start;
   padding: 0.125rem 0.6rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
+  border: 1px solid rgb(148 163 184 / 0.4);
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #e5e7eb;
-  background: rgba(15, 23, 42, 0.85);
+  background: rgb(15 23 42 / 0.85);
 }
 
 .icarsoft-prelaunch-title {
@@ -137,13 +149,13 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   border-radius: 0.9rem;
   background: radial-gradient(
     circle at top left,
-    rgba(15, 118, 110, 0.24),
-    rgba(15, 23, 42, 0.9)
+    rgb(15 118 110 / 0.24),
+    rgb(15 23 42 / 0.9)
   );
-  border: 1px solid rgba(148, 163, 184, 0.55);
+  border: 1px solid rgb(148 163 184 / 0.55);
   box-shadow:
-    0 10px 30px rgba(15, 23, 42, 0.7),
-    0 0 0 1px rgba(15, 23, 42, 0.7);
+    0 10px 30px rgb(15 23 42 / 0.7),
+    0 0 0 1px rgb(15 23 42 / 0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,6 +179,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   letter-spacing: 0.08em;
   color: #cbd5f5;
 }
+
 .icarsoft-prelaunch-banner .icarsoft-prelaunch-countdown-unit {
   flex-direction: row;
 }
@@ -175,6 +188,10 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+}
+
+.icarsoft-prelaunch-form {
+  margin: 0;
 }
 
 .icarsoft-prelaunch-note {
@@ -192,7 +209,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   font-weight: 500;
   cursor: pointer;
   background-image: linear-gradient(135deg, #de1a00, #ff2e14);
-  color: #ffffff;
+  color: #fff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -205,7 +222,7 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
 
 .icarsoft-prelaunch-close:hover {
   transform: translateY(-1px);
-  box-shadow: 0 16px 40px rgba(222, 26, 0, 0.55);
+  box-shadow: 0 16px 40px rgb(222 26 0 / 0.55);
   background-image: linear-gradient(135deg, #ff2e14, #ff5a47);
 }
 
@@ -214,23 +231,25 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
 }
 
 .icarsoft-prelaunch-close:focus-visible {
-  outline: 2px solid rgba(222, 26, 0, 0.5);
+  outline: 2px solid rgb(222 26 0 / 0.5);
   outline-offset: 2px;
 }
 
 // Sticky banner
-
 .icarsoft-prelaunch-banner {
   position: fixed;
   left: 0;
   right: 0;
   z-index: 1500;
-  display: none;
   background: linear-gradient(90deg, #0f172a, #020617);
   color: #e5e7eb;
   box-shadow:
-    0 16px 45px rgba(15, 23, 42, 0.9),
-    0 0 0 1px rgba(15, 23, 42, 0.9);
+    0 16px 45px rgb(15 23 42 / 0.9),
+    0 0 0 1px rgb(15 23 42 / 0.9);
+}
+
+.icarsoft-prelaunch-banner[hidden] {
+  display: none;
 }
 
 .icarsoft-prelaunch-banner-inner {
@@ -272,13 +291,13 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   border-radius: 999px;
   background: radial-gradient(
     circle at top left,
-    rgba(15, 118, 110, 0.24),
-    rgba(15, 23, 42, 0.9)
+    rgb(15 118 110 / 0.24),
+    rgb(15 23 42 / 0.9)
   );
-  border: 1px solid rgba(148, 163, 184, 0.55);
+  border: 1px solid rgb(148 163 184 / 0.55);
   box-shadow:
-    0 10px 30px rgba(15, 23, 42, 0.7),
-    0 0 0 1px rgba(15, 23, 42, 0.7);
+    0 10px 30px rgb(15 23 42 / 0.7),
+    0 0 0 1px rgb(15 23 42 / 0.7);
 }
 
 .icarsoft-prelaunch-countdown--compact .value {
@@ -290,13 +309,18 @@ body:has(.icarsoft-prelaunch-banner) #main-outlet-wrapper {
   font-size: 0.7rem;
   color: #e7ebf9;
 }
-@media (max-width: 900px) {
+
+@media (width <= 900px) {
   .icarsoft-prelaunch-banner .icarsoft-prelaunch-countdown {
     display: none;
   }
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
+  dialog.icarsoft-prelaunch-overlay {
+    width: calc(100% - 2rem);
+  }
+
   .icarsoft-prelaunch-card {
     padding: 1.25rem 1.2rem 1.1rem;
     border-radius: 1.15rem;

@@ -1,0 +1,8 @@
+autoInstallPeers: false
+engineStrict: true
+minimumReleaseAgeExclude:
+  - "@discourse/*"
+peerDependencyRules:
+  allowedVersions:
+    typescript: "*"
+strictPeerDependencies: true

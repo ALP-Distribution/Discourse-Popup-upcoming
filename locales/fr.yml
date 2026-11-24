@@ -1,0 +1,7 @@
+fr:
+  theme_metadata:
+    description: "Fenêtre modale de compte à rebours avant lancement et bannière d'annonce pour les visiteurs anonymes."
+    settings:
+      enable_prelaunch_popup: "Activer la fenêtre de pré-lancement et la bannière de compte à rebours pour les visiteurs non connectés."
+      launch_date_iso: "Date et heure de lancement au format ISO 8601 (ex. 2025-12-15T00:00:00+01:00)."
+      hide_after_launch: "Masquer automatiquement la fenêtre et la bannière une fois la date de lancement dépassée."

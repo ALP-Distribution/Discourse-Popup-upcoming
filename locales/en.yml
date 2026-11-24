@@ -1,5 +1,7 @@
 en:
   theme_metadata:
-    description: ''
+    description: "Pre-launch countdown modal dialog and sticky announcement banner for anonymous visitors."
     settings:
-      example_setting: A description of a setting.
+      enable_prelaunch_popup: "Enable the pre-launch popup and countdown banner for anonymous users."
+      launch_date_iso: "Target launch date/time in ISO 8601 format (e.g. 2025-12-15T00:00:00+01:00)."
+      hide_after_launch: "Automatically hide the popup and sticky banner once the launch date has passed."

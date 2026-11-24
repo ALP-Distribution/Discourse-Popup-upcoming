@@ -1,2 +1,6 @@
 node_modules
 .discourse-site
+.eslintcache
+.DS_Store
+**/.DS_Store
+tsconfig.tsbuildinfo
